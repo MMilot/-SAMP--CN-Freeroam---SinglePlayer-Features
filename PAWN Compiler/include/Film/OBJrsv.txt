@@ -1,0 +1,195 @@
+//--------------------------reserve area-----------------------------//
+/*
+dcmd_object(playerid, params[])
+{
+	new cString[ 128 ], idx;
+	cString = strtok( params, idx );
+	
+	if ( !strlen( cString ) || !strlen( params[ idx + 1 ] ) )
+	{
+		SendClientMessage( playerid, COLOR_WHITE, "[用法]: /object [RRATE/MRATE/CAMERA] [RATE/ID]");
+		
+		return 1;
+	}
+	
+	if ( strcmp( cString, "rrate", true ) == 0 )
+	{
+		pObjectRate[ playerid ][ OBJ_RATE_ROT ] = floatstr( params[ idx + 1 ] );
+		
+		format( cString, 128, "[SUCCESS]: Object rotation rate changed to %f.", pObjectRate[ playerid ][ OBJ_RATE_ROT ] );
+		SendClientMessage( playerid, COLOR_GREEN, cString );
+		
+		return 1;
+	}
+	
+	if ( strcmp( cString, "mrate", true ) == 0 )
+	{
+		pObjectRate[ playerid ][ OBJ_RATE_MOVE ] = floatstr( params[ idx + 1 ] );
+		
+		format( cString, 128, "[成功]Obj 移动速度改为 %f.", pObjectRate[ playerid ][ OBJ_RATE_MOVE ] );
+		SendClientMessage( playerid, COLOR_GREEN, cString );
+		
+		return 1;
+	}
+	
+	if ( strcmp( cString, "mode", true ) == 0 )
+	{
+		new fuck = strval( params[ idx + 1 ] );
+		
+		if ( fuck >= O_MODE_SELECTOR || fuck <= O_MODE_ROTATOR )
+		{
+			curPlayerObjM[ playerid ][ OBJ_MOD ] = fuck;
+			
+			switch ( fuck )
+			{
+				case O_MODE_SELECTOR: SendClientMessage( playerid, COLOR_GREEN, "[SUCCESS]: Object mode changed to Object Selection." );
+				case O_MODE_MOVER: SendClientMessage( playerid, COLOR_GREEN, "[SUCCESS]: Object mode changed to Object Mover." );
+				case O_MODE_ROTATOR: SendClientMessage( playerid, COLOR_GREEN, "[SUCCESS]: Object mode changed to Object Rotator." );
+			}
+			
+			return 1;
+		}
+		else
+		{
+			SendClientMessage( playerid, COLOR_RED, "[错误]:无效ID." );
+			
+			return 1;
+		}
+	}
+	
+	if ( strcmp( cString, "focus", true ) == 0 )
+	{
+		new objectid = strval( params[ idx + 1 ] );
+		
+		if ( !IsValidObject( objectid ) )
+		{
+			SendClientMessage( playerid, COLOR_RED, "[错误]: 请输入一个有效的OBJ的ID." );
+			
+			return 1;
+		}
+		
+		else 
+		{
+			curPlayerObjI[ playerid ] = objectid;
+			
+			GetObjectPos( objectid, curPlayerObjM[ playerid ][ OBJ_X ], curPlayerObjM[ playerid ][ OBJ_Y ], curPlayerObjM[ playerid ][ OBJ_Z ] );
+			GetObjectRot( objectid, curPlayerObjM[ playerid ][ OBJ_RX ], curPlayerObjM[ playerid ][ OBJ_RY ], curPlayerObjM[ playerid ][ OBJ_RZ ] );
+			
+			curPlayerCamD[playerid][CPOS_X] = curPlayerObjM[ playerid ][ OBJ_X ] + 5.0;
+			curPlayerCamD[playerid][CPOS_Y] = curPlayerObjM[ playerid ][ OBJ_Y ] - 20.0;
+			curPlayerCamD[playerid][CPOS_Z] = curPlayerObjM[ playerid ][ OBJ_Z ] + 30.0;
+			
+			curPlayerCamD[playerid][CLOO_X] = curPlayerObjM[ playerid ][ OBJ_X ];
+			curPlayerCamD[playerid][CLOO_Y] = curPlayerObjM[ playerid ][ OBJ_Y ];
+			curPlayerCamD[playerid][CLOO_Z] = curPlayerObjM[ playerid ][ OBJ_Z ];
+			
+			if ( gPlayerStatus[ playerid ] == OBJE_SEL_STAT )
+			{
+				SetPlayerCameraPos( playerid, curPlayerCamD[playerid][CPOS_X], curPlayerCamD[playerid][CPOS_Y], curPlayerCamD[playerid][CPOS_Z] );
+				SetPlayerCameraLookAt( playerid, curPlayerObjM[ playerid ][ OBJ_X ], curPlayerObjM[ playerid ][ OBJ_Y ], curPlayerObjM[ playerid ][ OBJ_Z ] );
+			}
+			
+			return 1;
+		}
+	}
+	
+	if ( strcmp( cString, "camera", true ) == 0 )
+	{
+		new cameraid = strval( params[ idx + 1 ] );
+		
+		if ( cameraid >= 0 && cameraid < 4 )
+		{
+			switch ( cameraid )
+			{
+				case 0:
+				{
+					curPlayerCamD[playerid][CPOS_X] = curPlayerObjM[ playerid ][ OBJ_X ] + 7.0;
+					curPlayerCamD[playerid][CPOS_Y] = curPlayerObjM[ playerid ][ OBJ_Y ] - 20.0;
+					curPlayerCamD[playerid][CPOS_Z] = curPlayerObjM[ playerid ][ OBJ_Z ] + 30.0;
+				}
+				
+				case 1:
+				{
+					curPlayerCamD[playerid][CPOS_X] = curPlayerObjM[ playerid ][ OBJ_X ] + 7.0;
+					curPlayerCamD[playerid][CPOS_Y] = curPlayerObjM[ playerid ][ OBJ_Y ] + 15.0;
+					curPlayerCamD[playerid][CPOS_Z] = curPlayerObjM[ playerid ][ OBJ_X ] + 15.0;
+				}
+				
+				case 2:
+				{
+					curPlayerCamD[playerid][CPOS_X] = curPlayerObjM[ playerid ][ OBJ_X ] - 20.0;
+					curPlayerCamD[playerid][CPOS_Y] = curPlayerObjM[ playerid ][ OBJ_Y ] + 20.0;
+					curPlayerCamD[playerid][CPOS_Z] = curPlayerObjM[ playerid ][ OBJ_X ] + 20.0;
+				}
+				
+				case 3:
+				{
+					curPlayerCamD[playerid][CPOS_X] = curPlayerObjM[ playerid ][ OBJ_X ] - 10.0;
+					curPlayerCamD[playerid][CPOS_Y] = curPlayerObjM[ playerid ][ OBJ_Y ] + 25.0;
+					curPlayerCamD[playerid][CPOS_Z] = curPlayerObjM[ playerid ][ OBJ_X ] + 15.0;
+				}
+			}
+			
+			SetPlayerCameraPos( playerid, curPlayerCamD[playerid][CPOS_X], curPlayerCamD[playerid][CPOS_Y], curPlayerCamD[playerid][CPOS_Z] );
+			SetPlayerCameraLookAt( playerid, curPlayerObjM[ playerid ][ OBJ_X ], curPlayerObjM[ playerid ][ OBJ_Y ], curPlayerObjM[ playerid ][ OBJ_Z ] );
+			
+			return 1;
+		}
+		else
+		{
+			SendClientMessage( playerid, COLOR_RED, "[错误]: Invalid object camera id.");
+			
+			return 1;
+		}
+	}
+	return 0;
+}
+*/
+/*
+dcmd_osel(playerid, params[])
+	#pragma unused params
+	
+	new cString[ 128 ];
+	
+	if ( gPlayerStatus[ playerid ] != 0 )
+	{
+		format( cString, 128, "[错误]你已经在使用指令 \"%s\".", aSelNames[ gPlayerStatus[ playerid ] - 1 ] );
+		SendClientMessage(playerid, COLOR_RED, cString);
+		
+		return 1;
+	}
+	
+	new Float:a;
+	
+	gPlayerStatus[playerid] = OBJE_SEL_STAT;
+	
+	GetPlayerPos(playerid, curPlayerCamD[playerid][CPOS_X], curPlayerCamD[playerid][CPOS_Y], curPlayerCamD[playerid][CPOS_Z]);
+	curPlayerCamD[playerid][CPOS_Z] += 5.0;
+	SetPlayerCameraPos(playerid, curPlayerCamD[playerid][CPOS_X], curPlayerCamD[playerid][CPOS_Y], curPlayerCamD[playerid][CPOS_Z]);
+	
+	GetXYInFrontOfPlayer(playerid, curPlayerCamD[playerid][CLOO_X], curPlayerCamD[playerid][CLOO_Y], OBJE_DIS);
+	
+	curPlayerCamD[playerid][CLOO_Z] = curPlayerCamD[playerid][CPOS_Z] - 5.0;
+	
+	SetPlayerCameraLookAt(playerid, curPlayerCamD[playerid][CLOO_X], curPlayerCamD[playerid][CLOO_Y], curPlayerCamD[playerid][CLOO_Z]);
+	
+	TogglePlayerControllable(playerid, 0);
+	
+	GetPlayerFacingAngle(playerid, a);
+	
+	curPlayerObjM[ playerid ][ OBJ_X ] = curPlayerCamD[playerid][CLOO_X];
+	curPlayerObjM[ playerid ][ OBJ_Y ] = curPlayerCamD[playerid][CLOO_Y];
+	curPlayerObjM[ playerid ][ OBJ_Z ] = curPlayerCamD[playerid][CLOO_Z];
+	curPlayerObjM[ playerid ][ OBJ_RX ] = 0.0;
+	curPlayerObjM[ playerid ][ OBJ_RY ] = 0.0;
+	curPlayerObjM[ playerid ][ OBJ_RZ ] = 0.0;
+	
+	curPlayerObjI[ playerid ] = CreateObject( curPlayerObjM[ playerid ][ OBJ_MDL ], curPlayerObjM[ playerid ][ OBJ_X ],
+	curPlayerObjM[ playerid ][ OBJ_Y ], curPlayerObjM[ playerid ][ OBJ_Z ],
+	curPlayerObjM[ playerid ][ OBJ_RX ], curPlayerObjM[ playerid ][ OBJ_RY ], curPlayerObjM[ playerid ][ OBJ_RZ ]
+	);
+	
+	gPlayerTimers[ playerid ] = SetTimerEx("ObjectSelect", 200, 1, "i", playerid);
+	
+	return 1;
+}*/

@@ -1,0 +1,63 @@
+#include <a_samp>
+/*COLOR DEFINES - based on A/D*/
+#define COLOR_LIGHTBLUE     0x00BFFFAA
+#define COLOR_BLUE			0x2020FFFF
+#define COLOR_GREEN			0x00E100FF
+#define COLOR_GREY			0xAFAFAFAA
+#define COLOR_YELLOW		0xFFFF00AA
+#define COLOR_WHITE			0xFFFFFFAA
+#define COLOR_ORANGE		0xFF8000FF
+#define COLOR_DARKGREY		0x4E4F5296
+#define COLOR_RED			0xDC143CFF
+#define COLOR_DARKRED       0x590000FF
+#define COLOR_CYAN			0x00FFFFAA
+#define COLOR_PINK			0xFF00FF96
+#define COLOR_LIGHTPURPLE	0x8000FF56
+#define COLOR_BLACK			0x000000FF
+#define COLOR_MARINE 		0x00BB99FF
+#define COLOR_GREYBLUE      0x8080FF96
+/*Skins*/
+#define MIN_SKIN_ID				0
+#define MAX_SKIN_ID				299
+/*Commands*/
+#define SCM SendClientMessage
+#define SCMA SendClientMessageToAll
+#define SPD ShowPlayerDialog
+#define SPA SetPlayerArmour
+#define SPH SetPlayerHealth
+#define SPP SetPlayerPos
+#define SPI SetPlayerInterior
+#define SPM SetPlayerMoney
+#define SMFP ShowMenuForPlayer
+#define SPS SetPlayerSkin
+#define ResetPW ResetPlayerWeapons
+/*Callbacks*/
+#define ODR OnDialogResponse
+#define OFE OnFilterScriptExit
+#define OFI OnFilterScriptInit
+#define OGME OnGameModeExit
+#define OGMI OnGameModeInit
+#define OPCP OnPlayerClickPlayer
+#define OPCT OnPlayerCommandText
+#define OPC OnPlayerConnect
+#define OPDeath OnPlayerDeath
+#define OPD OnPlayerDisconnect
+#define OPEC OnPlayerEnterCheckpoint
+#define OPERC OnPlayerEnterRaceCheckpoint
+#define OPEnterV OnPlayerEnterVehicle
+#define OPExitV OnPlayerExitVehicle
+#define OPEE OnPlayerExitedMenu
+#define OPIC OnPlayerInteriorChange
+#define OPKSC OnPlayerKeyStateChange
+#define OPLC OnPlayerLeaveCheckpoint
+#define OPLRC OnPlayerLeaveCheckpoint
+#define OPOM OnPlayerObjectMoved
+#define OPPUP OnPlayerPickUpPickup
+#define OPRC OnPlayerRequestClass
+#define OPRS OnPlayerRequestSpawn
+#define OPSMR OnPlayerSelectedMenuRow
+#define OPS OnPlayerSpawn
+#define OPSC OnPlayerStateChange
+#define OPT OnPlayerText
+#define OPU OnPlayerUpdate
+#define ORC OnRconCommand
